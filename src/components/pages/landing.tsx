@@ -73,7 +73,7 @@ function HeroSection() {
   return (
     <section className="animate-in fade-in text-foreground duration-700">
       <div className="py-20 md:py-28">
-        <p className="font-mono text-xs tracking-caps text-muted-foreground uppercase">preflight</p>
+        <p className="font-mono text-xs tracking-caps text-muted-foreground">preflight</p>
 
         <h1 className="font-heading mt-6 max-w-2xl text-5xl font-semibold tracking-tight text-balance text-foreground md:text-7xl md:leading-display">
           Start from done.
