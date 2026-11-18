@@ -88,7 +88,7 @@ export const auth = betterAuth({
 
   plugins: [
     passkey({
-      rpName: "TanStack Start Template",
+      rpName: "Preflight",
       rpID: new URL(env.BETTER_AUTH_URL).hostname,
       origin: env.BETTER_AUTH_URL,
     }),

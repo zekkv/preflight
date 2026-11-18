@@ -10,7 +10,7 @@ export const Route = createFileRoute("/login")({
   },
   head: () =>
     createSeoHead({
-      title: "Sign In — TanStack Start Template",
+      title: "Sign In — Preflight",
       noindex: true,
     }),
   component: LoginPage,

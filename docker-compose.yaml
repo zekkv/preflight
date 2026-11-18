@@ -1,4 +1,4 @@
-name: tanstack-start-template
+name: preflight
 
 services:
   redis:
@@ -59,11 +59,11 @@ services:
       interval: 5s
       timeout: 5s
       retries: 10
-  tanstack-start-template:
+  preflight:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: tanstack-start-template
+    container_name: preflight
     ports:
       - 3000:3000
     env_file:
