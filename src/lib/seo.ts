@@ -159,7 +159,7 @@ export function getStructuredData(explicitBaseUrl?: string) {
         "@type": "WebSite",
         "@id": `${baseUrl}/#website`,
         url: baseUrl,
-        name: "TanStack Start Template",
+        name: "preflight",
         description:
           "Full-stack React template with TanStack Start, Nitro, React 19, Better Auth, Drizzle ORM, and Tailwind CSS v4.",
         publisher: {
@@ -169,7 +169,7 @@ export function getStructuredData(explicitBaseUrl?: string) {
       {
         "@type": "Organization",
         "@id": `${baseUrl}/#organization`,
-        name: "TanStack Start Template",
+        name: "preflight",
         url: baseUrl,
         logo: {
           "@type": "ImageObject",
@@ -179,10 +179,10 @@ export function getStructuredData(explicitBaseUrl?: string) {
       {
         "@type": "SoftwareSourceCode",
         "@id": `${baseUrl}/#software`,
-        name: "TanStack Start Template",
+        name: "preflight",
         programmingLanguage: "TypeScript",
         runtimePlatform: "Bun / Node.js",
-        codeRepository: "https://github.com/zek01svg/tanstack-start-template",
+        codeRepository: "https://github.com/zekkv/preflight",
         description:
           "Production-ready template for full-stack React applications with TanStack Start, Better Auth, Drizzle ORM, and Tailwind CSS.",
       },

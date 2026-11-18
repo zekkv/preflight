@@ -1,4 +1,4 @@
-# TanStack Start Template
+# preflight
 
 A production-ready full-stack web application template built with TanStack Start, Better Auth, and Drizzle ORM. It runs on Bun-native APIs and drivers (`bun.SQL`, `Bun.s3`, `Bun.redis`).
 
@@ -84,8 +84,8 @@ For complete workflow instructions, script catalogs, testing guidelines, and env
 The template ships a `Dockerfile` and `docker-compose.yaml` for containerised deployment.
 
 ```bash
-docker build -t tanstack-start-template .
-docker run -p 3000:3000 tanstack-start-template
+docker build -t preflight .
+docker run -p 3000:3000 preflight
 ```
 
 ## Documentation
