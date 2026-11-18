@@ -159,7 +159,7 @@ export function getStructuredData(explicitBaseUrl?: string) {
         "@type": "WebSite",
         "@id": `${baseUrl}/#website`,
         url: baseUrl,
-        name: "Preflight",
+        name: "preflight",
         description:
           "Full-stack React template with TanStack Start, Nitro, React 19, Better Auth, Drizzle ORM, and Tailwind CSS v4.",
         publisher: {
@@ -169,7 +169,7 @@ export function getStructuredData(explicitBaseUrl?: string) {
       {
         "@type": "Organization",
         "@id": `${baseUrl}/#organization`,
-        name: "Preflight",
+        name: "preflight",
         url: baseUrl,
         logo: {
           "@type": "ImageObject",
@@ -179,7 +179,7 @@ export function getStructuredData(explicitBaseUrl?: string) {
       {
         "@type": "SoftwareSourceCode",
         "@id": `${baseUrl}/#software`,
-        name: "Preflight",
+        name: "preflight",
         programmingLanguage: "TypeScript",
         runtimePlatform: "Bun / Node.js",
         codeRepository: "https://github.com/zekkv/preflight",

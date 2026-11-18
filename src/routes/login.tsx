@@ -10,7 +10,7 @@ export const Route = createFileRoute("/login")({
   },
   head: () =>
     createSeoHead({
-      title: "Sign In — Preflight",
+      title: "Sign In — preflight",
       noindex: true,
     }),
   component: LoginPage,

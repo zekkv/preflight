@@ -10,7 +10,7 @@ export const Route = createFileRoute("/reset-password")({
   }),
   head: () =>
     createSeoHead({
-      title: "Reset Password — Preflight",
+      title: "Reset Password — preflight",
       noindex: true,
     }),
   component: ResetPasswordPage,

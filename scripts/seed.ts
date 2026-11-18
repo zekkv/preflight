@@ -31,7 +31,7 @@ export const seedUsers: SeedUser[] = [
 
 export const seedNotes: SeedNote[] = [
   {
-    title: "Welcome to Preflight",
+    title: "Welcome to preflight",
     userId: "user-demo-1",
   },
   {

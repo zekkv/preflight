@@ -19,7 +19,7 @@ export const Route = createFileRoute("/signup")({
   },
   head: () =>
     createSeoHead({
-      title: "Sign Up — Preflight",
+      title: "Sign Up — preflight",
       noindex: true,
     }),
   component: SignupPage,

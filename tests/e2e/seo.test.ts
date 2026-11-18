@@ -7,7 +7,7 @@ test.describe("SEO and Metadata", () => {
     await page.goto("/");
 
     // Title & Description
-    await expect(page).toHaveTitle(/Preflight/i);
+    await expect(page).toHaveTitle(/preflight/i);
     const description = page.locator('meta[name="description"]');
     await expect(description).toHaveAttribute("content", /Full-stack React template/i);
 
@@ -17,7 +17,7 @@ test.describe("SEO and Metadata", () => {
 
     // OpenGraph meta
     const ogTitle = page.locator('meta[property="og:title"]');
-    await expect(ogTitle).toHaveAttribute("content", /Preflight/i);
+    await expect(ogTitle).toHaveAttribute("content", /preflight/i);
 
     const ogDescription = page.locator('meta[property="og:description"]');
     await expect(ogDescription).toHaveAttribute("content", /Full-stack React template/i);
@@ -33,7 +33,7 @@ test.describe("SEO and Metadata", () => {
     await expect(twitterCard).toHaveAttribute("content", "summary_large_image");
 
     const twitterTitle = page.locator('meta[name="twitter:title"]');
-    await expect(twitterTitle).toHaveAttribute("content", /Preflight/i);
+    await expect(twitterTitle).toHaveAttribute("content", /preflight/i);
 
     // Favicon & Icons & Theme color
     const themeColor = page.locator('meta[name="theme-color"]');

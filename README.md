@@ -1,4 +1,4 @@
-# Preflight
+# preflight
 
 A production-ready full-stack web application template built with TanStack Start, Better Auth, and Drizzle ORM. It runs on Bun-native APIs and drivers (`bun.SQL`, `Bun.s3`, `Bun.redis`).
 

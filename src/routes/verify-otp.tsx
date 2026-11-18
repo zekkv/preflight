@@ -10,7 +10,7 @@ export const Route = createFileRoute("/verify-otp")({
   }),
   head: () =>
     createSeoHead({
-      title: "Verify Code — Preflight",
+      title: "Verify Code — preflight",
       noindex: true,
     }),
   component: VerifyOtpPage,
