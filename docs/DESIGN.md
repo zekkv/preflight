@@ -127,7 +127,7 @@ Light-first. Dark inverts background/foreground and softens muted/border to tran
 - **Background (oklch(0.99 0 0)):** paper white; page and section grounds.
 - **Foreground (oklch(0.16 0 0)):** near-black ink for headings, primary buttons, and body emphasis.
 - **Card (oklch(1 0 0)):** slightly lifted mono-code and form surfaces.
-- **Muted (oklch(0.965 0 0)) / Muted-foreground (oklch(0.52 0 0)):** secondary text, captions, tree annotations, and the “TANSTACK START TEMPLATE” eyebrow.
+- **Muted (oklch(0.965 0 0)) / Muted-foreground (oklch(0.52 0 0)):** secondary text, captions, tree annotations, and the “preflight” eyebrow.
 - **Border (oklch(0.92 0 0)) / Input (oklch(0.92 0 0)):** hairline dividers, table rules, card strokes.
 - **Primary (oklch(0.16 0 0)) / Primary-foreground (oklch(0.99 0 0)):** solid ink buttons; hover is a subtle opacity shift, not a hue shift.
 - **Ring (oklch(0.556 0 0)):** neutral focus ring.
@@ -141,7 +141,7 @@ Two faces. Schibsted Grotesk Variable carries voice; JetBrains Mono Variable car
 
 - **Display / H1 / H2:** Schibsted Grotesk Variable, 600, tight tracking (-0.02em → -0.015em), leading 1.02–1.1. The hero “Start from done.” is set at 48–72px (text-5xl → text-7xl, tight) to make the typesetting itself the memorable move.
 - **Body-md / Body-sm:** Schibsted Grotesk Variable, 400, 16px/14px, leading 1.6/1.5 for readable paragraphs and table copy.
-- **Label-caps:** JetBrains Mono Variable, 500, 12px, tracking 0.2em, uppercase, muted-foreground — used for eyebrows (“TANSTACK START TEMPLATE”, “QUICKSTART”, section labels) and table headers.
+- **Label-caps:** JetBrains Mono Variable, 500, 12px, tracking 0.2em, uppercase, muted-foreground — used for eyebrows (“QUICKSTART”, section labels) and table headers. The “preflight” wordmark eyebrow keeps the same type but stays lowercase.
 - **Mono-code / Mono-sm:** JetBrains Mono Variable, 400, 14px/12px — the quickstart block, tree glyphs, and upload keys. The `$` prompt glyph stays muted-foreground.
 
 Pairing is deliberate: a slightly quirky grotesk (not the default Inter) against a developer-mono that developers already associate with tool output.

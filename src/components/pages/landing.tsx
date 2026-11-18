@@ -3,11 +3,11 @@ import { Check, Copy } from "lucide-react";
 import { Page } from "#/components/custom/page";
 import { Button, buttonVariants } from "#/components/ui/button";
 
-const REPO_URL = "https://github.com/zek01svg/tanstack-start-template";
+const REPO_URL = "https://github.com/zekkv/preflight";
 const DOCS_URL = "https://tanstack.com/start/latest/docs/framework/react/overview";
 
-const QUICKSTART = `git clone https://github.com/zek01svg/tanstack-start-template.git
-cd tanstack-start-template
+const QUICKSTART = `git clone https://github.com/zekkv/preflight.git
+cd preflight
 bun install && bun dev`;
 
 interface TreeEntry {
@@ -73,9 +73,7 @@ function HeroSection() {
   return (
     <section className="animate-in fade-in text-foreground duration-700">
       <div className="py-20 md:py-28">
-        <p className="font-mono text-xs tracking-caps text-muted-foreground uppercase">
-          TanStack Start template
-        </p>
+        <p className="font-mono text-xs tracking-caps text-muted-foreground">preflight</p>
 
         <h1 className="font-heading mt-6 max-w-2xl text-5xl font-semibold tracking-tight text-balance text-foreground md:text-7xl md:leading-display">
           Start from done.

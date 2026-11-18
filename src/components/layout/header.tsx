@@ -62,7 +62,7 @@ export function Header() {
             size="icon-sm"
             render={
               <a
-                href="https://github.com/zek01svg/tanstack-start-template"
+                href="https://github.com/zekkv/preflight"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="GitHub repository"

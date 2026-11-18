@@ -1,7 +1,7 @@
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { tanstackStartCookies } from "better-auth/tanstack-start";
-import { emailOTP } from "better-auth/plugins";
+import { emailOTP, lastLoginMethod } from "better-auth/plugins";
 import { passkey } from "@better-auth/passkey";
 import { createElement } from "react";
 
@@ -88,7 +88,7 @@ export const auth = betterAuth({
 
   plugins: [
     passkey({
-      rpName: "TanStack Start Template",
+      rpName: "preflight",
       rpID: new URL(env.BETTER_AUTH_URL).hostname,
       origin: env.BETTER_AUTH_URL,
     }),
@@ -100,6 +100,7 @@ export const auth = betterAuth({
       },
       expiresIn: 600,
     }),
+    lastLoginMethod({ storeInDatabase: true }),
     tanstackStartCookies(),
   ],
 });
