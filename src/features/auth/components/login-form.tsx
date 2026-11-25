@@ -32,6 +32,18 @@ const LAST_LOGIN_METHOD_LABELS: Record<string, string> = {
   google: "Google",
 };
 
+/**
+ * Offers passkeys in the email field's autofill (WebAuthn conditional mediation). The request stays
+ * pending until the user picks a passkey or another WebAuthn call aborts it.
+ */
+async function startPasskeyAutofill(onSuccess: () => void) {
+  // `PublicKeyCredential` is absent outside a secure context (the dev server reached over a LAN IP,
+  // say) and in browsers without WebAuthn, where calling it would throw.
+  if (typeof PublicKeyCredential === "undefined") return;
+  if (!(await PublicKeyCredential.isConditionalMediationAvailable())) return;
+  await authClient.signIn.passkey({ autoFill: true, fetchOptions: { onSuccess } });
+}
+
 export function LoginForm({ className, ...props }: React.ComponentProps<"div">) {
   const navigate = useNavigate();
   // Cookie-backed, so read it after hydration while keeping the server render deterministic.
@@ -42,16 +54,7 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
   );
 
   useEffect(() => {
-    void (async () => {
-      const available = await PublicKeyCredential.isConditionalMediationAvailable();
-      if (!available) return;
-      void authClient.signIn.passkey({
-        autoFill: true,
-        fetchOptions: {
-          onSuccess: () => navigate({ to: "/" }),
-        },
-      });
-    })();
+    void startPasskeyAutofill(() => void navigate({ to: "/" }));
   }, [navigate]);
 
   const form = useForm({
@@ -78,7 +81,11 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
       if (error) throw new Error(error.message ?? "Passkey sign-in failed.");
     },
     onSuccess: () => navigate({ to: "/" }),
-    onError: error => form.setErrorMap({ onSubmit: { form: error.message, fields: {} } }),
+    onError: error => {
+      form.setErrorMap({ onSubmit: { form: error.message, fields: {} } });
+      // Starting the explicit prompt aborted the pending autofill request; re-arm it.
+      void startPasskeyAutofill(() => void navigate({ to: "/" }));
+    },
   });
 
   const sendSignInCode = useMutation({
@@ -123,8 +130,11 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
                 <FieldLabel htmlFor="email">Email</FieldLabel>
                 <Input
                   id="email"
+                  name="email"
                   type="email"
                   autoComplete="username webauthn"
+                  spellCheck={false}
+                  required
                   placeholder="you@example.com"
                   value={field.state.value}
                   onChange={e => field.handleChange(e.target.value)}
@@ -142,6 +152,8 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
                 <FieldLabel htmlFor="password">Password</FieldLabel>
                 <PasswordInput
                   id="password"
+                  name="password"
+                  required
                   autoComplete="current-password"
                   value={field.state.value}
                   onChange={e => field.handleChange(e.target.value)}

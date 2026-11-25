@@ -81,8 +81,11 @@ function RequestReset({ expired }: { expired: boolean }) {
               <FieldLabel htmlFor="email">Email</FieldLabel>
               <Input
                 id="email"
+                name="email"
                 type="email"
                 autoComplete="username"
+                spellCheck={false}
+                required
                 placeholder="you@example.com"
                 value={field.state.value}
                 onChange={e => field.handleChange(e.target.value)}
@@ -157,6 +160,8 @@ function SetNewPassword({ token }: { token: string }) {
               <FieldLabel htmlFor="password">New password</FieldLabel>
               <PasswordInput
                 id="password"
+                name="password"
+                required
                 autoComplete="new-password"
                 value={field.state.value}
                 onChange={e => field.handleChange(e.target.value)}

@@ -117,8 +117,11 @@ export function SignupForm({ className, ...props }: React.ComponentProps<"div">)
                 <FieldLabel htmlFor="email">Email</FieldLabel>
                 <Input
                   id="email"
+                  name="email"
                   type="email"
                   autoComplete="username webauthn"
+                  spellCheck={false}
+                  required
                   placeholder="you@example.com"
                   value={field.state.value}
                   onChange={e => field.handleChange(e.target.value)}
@@ -136,6 +139,8 @@ export function SignupForm({ className, ...props }: React.ComponentProps<"div">)
                 <FieldLabel htmlFor="password">Password</FieldLabel>
                 <PasswordInput
                   id="password"
+                  name="password"
+                  required
                   autoComplete="new-password"
                   maxLength={128}
                   value={field.state.value}

@@ -78,6 +78,8 @@ describe("LoginForm component", () => {
     // `a@b` passes the browser's own `type="email"` constraint (which blocks submission in a
     // browser), and fails the app's Zod schema — the error the form is expected to surface.
     fireEvent.change(emailInput, { target: { value: "a@b" } });
+    // The password is `required`, so leaving it empty would stop the submit before Zod runs.
+    fireEvent.change(screen.getByLabelText(/^password$/i), { target: { value: "secret" } });
 
     fireEvent.click(screen.getByRole("button", { name: /^sign in$/i }));
 
