@@ -5,6 +5,7 @@ import type { QueryClient } from "@tanstack/react-query";
 import { Devtools } from "#/components/devtools";
 import { Header } from "#/components/layout/header";
 import { RootDocument } from "#/components/layout/root-document";
+import { THEME_COLORS } from "#/components/providers/theme-provider";
 import { RootErrorPage, RootNotFoundPage } from "#/components/pages/error";
 import { getCurrentUser } from "#/features/auth/session";
 import { logger } from "#/lib/logger";
@@ -34,9 +35,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         name: "viewport",
         content: "width=device-width, initial-scale=1",
       },
+      // The light `--background`, since light is the default theme; `ThemeProvider` swaps it
+      // when the resolved theme changes so the browser chrome matches the page.
       {
         name: "theme-color",
-        content: "#09090b",
+        content: THEME_COLORS.light,
       },
       {
         name: "color-scheme",
@@ -47,7 +50,6 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
     ],
     links: [
-      { rel: "icon", href: "/favicon.ico", sizes: "any" },
       { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
       { rel: "apple-touch-icon", href: "/apple-touch-icon.png" },
       { rel: "manifest", href: "/site.webmanifest" },

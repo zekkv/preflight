@@ -81,7 +81,7 @@ export function VerifyOtpForm({ email, flow, className, ...props }: VerifyOtpFor
         <FieldGroup>
           <div className="flex flex-col items-center gap-1.5 text-center">
             <h1 className="font-heading text-2xl font-semibold tracking-tight">Check your email</h1>
-            <FieldDescription>
+            <FieldDescription id="otp-hint">
               We sent a 6-digit code to <strong>{email}</strong>
             </FieldDescription>
           </div>
@@ -92,9 +92,13 @@ export function VerifyOtpForm({ email, flow, className, ...props }: VerifyOtpFor
                 <FieldLabel htmlFor="otp">Verification code</FieldLabel>
                 <Input
                   id="otp"
+                  name="otp"
                   type="text"
                   inputMode="numeric"
                   autoComplete="one-time-code"
+                  pattern="[0-9]{6}"
+                  required
+                  aria-describedby="otp-hint"
                   placeholder="000000"
                   maxLength={6}
                   value={field.state.value}

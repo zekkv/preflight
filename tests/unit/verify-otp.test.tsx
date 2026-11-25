@@ -52,7 +52,10 @@ describe("VerifyOtpForm component", () => {
     const otpInput = screen.getByLabelText(/verification code/i);
     fireEvent.change(otpInput, { target: { value: "123" } });
 
-    fireEvent.click(screen.getByRole("button", { name: /verify code/i }));
+    // A browser stops this submit on the field's own `pattern`; dispatching `submit` directly
+    // skips that, so the Zod schema behind it still gets exercised.
+    expect((otpInput as HTMLInputElement).validity.patternMismatch).toBe(true);
+    fireEvent.submit(screen.getByRole("button", { name: /verify code/i }));
 
     await waitFor(() => {
       expect(otpInput.getAttribute("aria-invalid")).toBe("true");
