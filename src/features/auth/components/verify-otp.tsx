@@ -79,8 +79,10 @@ export function VerifyOtpForm({ email, flow, className, ...props }: VerifyOtpFor
         }}
       >
         <FieldGroup>
-          <div className="flex flex-col items-center gap-1.5 text-center">
-            <h1 className="font-heading text-2xl font-semibold tracking-tight">Check your email</h1>
+          <div className="flex flex-col gap-2 pb-2">
+            <h1 className="font-heading text-3xl font-medium tracking-tight font-stretch-semi-condensed">
+              Check your email
+            </h1>
             <FieldDescription id="otp-hint">
               We sent a 6-digit code to <strong>{email}</strong>
             </FieldDescription>
@@ -129,7 +131,7 @@ export function VerifyOtpForm({ email, flow, className, ...props }: VerifyOtpFor
             )}
           </form.Subscribe>
 
-          <FieldDescription className="text-center">
+          <FieldDescription>
             Wrong email? <Link to={flow === "sign-up" ? "/signup" : "/login"}>Go back</Link>
           </FieldDescription>
         </FieldGroup>
@@ -154,8 +156,10 @@ function PasskeyPrompt({
   return (
     <div className="flex flex-col gap-5">
       <FieldGroup>
-        <div className="flex flex-col items-center gap-1.5 text-center">
-          <h1 className="font-heading text-2xl font-semibold tracking-tight">Set up a passkey</h1>
+        <div className="flex flex-col gap-2 pb-2">
+          <h1 className="font-heading text-3xl font-medium tracking-tight font-stretch-semi-condensed">
+            Set up a passkey
+          </h1>
           <FieldDescription>
             Use your device biometrics or PIN to sign in faster next time. No password needed.
           </FieldDescription>
@@ -175,7 +179,7 @@ function PasskeyPrompt({
           </Button>
         </Field>
 
-        <FieldDescription className="text-center">
+        <FieldDescription>
           Signed in as <strong>{email}</strong>
         </FieldDescription>
       </FieldGroup>

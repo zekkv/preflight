@@ -38,7 +38,7 @@ test.describe("SEO and Metadata", () => {
     // Favicon & Icons & Theme color
     // Matches the light `--background`, the default theme.
     const themeColor = page.locator('meta[name="theme-color"]');
-    await expect(themeColor).toHaveAttribute("content", "#fcfcfc");
+    await expect(themeColor).toHaveAttribute("content", "#fbfbfc");
 
     // `public/` ships no favicon.ico, so the head must not point at one.
     await expect(page.locator('link[rel="icon"][href="/favicon.ico"]')).toHaveCount(0);

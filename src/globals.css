@@ -5,29 +5,34 @@
 
 @import "shadcn/tailwind.css";
 
-@import "@fontsource-variable/schibsted-grotesk";
-@import "@fontsource-variable/jetbrains-mono";
+/* `standard.css` carries both axes: weight (400–700) and width (75–100%) for the condensed headings. */
+@import "@fontsource-variable/instrument-sans/standard.css";
+@import "@fontsource/ibm-plex-mono/400.css";
+@import "@fontsource/ibm-plex-mono/500.css";
 
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --background: oklch(0.99 0 0);
-  --foreground: oklch(0.16 0 0);
+  --background: oklch(0.988 0.001 265);
+  --foreground: oklch(0.23 0.008 264);
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.16 0 0);
-  --primary: oklch(0.16 0 0);
-  --primary-foreground: oklch(0.99 0 0);
-  --secondary: oklch(0.965 0 0);
-  --secondary-foreground: oklch(0.16 0 0);
-  --muted: oklch(0.965 0 0);
-  --muted-foreground: oklch(0.52 0 0);
-  --accent: oklch(0.965 0 0);
-  --accent-foreground: oklch(0.16 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.99 0.01 240);
-  --border: oklch(0.92 0 0);
-  --input: oklch(0.92 0 0);
-  --ring: oklch(0.556 0 0);
+  --card-foreground: oklch(0.23 0.008 264);
+  --primary: oklch(0.23 0.008 264);
+  --primary-foreground: oklch(0.988 0.001 265);
+  --secondary: oklch(0.967 0.003 265);
+  --secondary-foreground: oklch(0.23 0.008 264);
+  --muted: oklch(0.967 0.003 265);
+  --muted-foreground: oklch(0.495 0.017 264);
+  --accent: oklch(0.967 0.003 265);
+  --accent-foreground: oklch(0.23 0.008 264);
+  --destructive: oklch(0.52 0.161 29);
+  --destructive-foreground: oklch(0.988 0.001 265);
+  --border: oklch(0.922 0.006 265);
+  --input: oklch(0.845 0.009 265);
+  --ring: oklch(0.482 0.071 170);
+  /* "Cleared": the one accent. Completed states (ticks, verified, active) and the focus ring only. */
+  --cleared: oklch(0.482 0.071 170);
+  --cleared-foreground: oklch(0.988 0.001 265);
   --popover: var(--card);
   --popover-foreground: var(--card-foreground);
   --sidebar: var(--secondary);
@@ -42,23 +47,25 @@
 }
 
 .dark {
-  --background: oklch(0.155 0 0);
-  --foreground: oklch(0.96 0 0);
-  --card: oklch(0.185 0 0);
-  --card-foreground: oklch(0.96 0 0);
-  --primary: oklch(0.96 0 0);
-  --primary-foreground: oklch(0.16 0 0);
-  --secondary: oklch(0.235 0 0);
-  --secondary-foreground: oklch(0.96 0 0);
-  --muted: oklch(0.235 0 0);
-  --muted-foreground: oklch(0.68 0 0);
-  --accent: oklch(0.235 0 0);
-  --accent-foreground: oklch(0.96 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --destructive-foreground: oklch(0.98 0.01 240);
-  --border: oklch(1 0 0 / 12%);
-  --input: oklch(1 0 0 / 16%);
-  --ring: oklch(0.68 0 0);
+  --background: oklch(0.204 0.007 258);
+  --foreground: oklch(0.931 0.004 271);
+  --card: oklch(0.238 0.009 256);
+  --card-foreground: oklch(0.931 0.004 271);
+  --primary: oklch(0.931 0.004 271);
+  --primary-foreground: oklch(0.204 0.007 258);
+  --secondary: oklch(0.238 0.009 256);
+  --secondary-foreground: oklch(0.931 0.004 271);
+  --muted: oklch(0.238 0.009 256);
+  --muted-foreground: oklch(0.714 0.014 262);
+  --accent: oklch(0.238 0.009 256);
+  --accent-foreground: oklch(0.931 0.004 271);
+  --destructive: oklch(0.721 0.123 27);
+  --destructive-foreground: oklch(0.204 0.007 258);
+  --border: oklch(0.289 0.012 264);
+  --input: oklch(0.363 0.015 264);
+  --ring: oklch(0.753 0.077 168);
+  --cleared: oklch(0.753 0.077 168);
+  --cleared-foreground: oklch(0.204 0.007 258);
   --popover: var(--card);
   --popover-foreground: var(--card-foreground);
   --sidebar: var(--card);
@@ -89,6 +96,8 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
+  --color-cleared: var(--cleared);
+  --color-cleared-foreground: var(--cleared-foreground);
   --color-popover: var(--popover);
   --color-popover-foreground: var(--popover-foreground);
   --color-sidebar: var(--sidebar);
@@ -99,11 +108,10 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
-  --tracking-caps: 0.2em;
-  --leading-display: 1.02;
-  --font-sans: "Schibsted Grotesk Variable", ui-sans-serif, system-ui, sans-serif;
-  --font-heading: "Schibsted Grotesk Variable", ui-sans-serif, system-ui, sans-serif;
-  --font-mono: "JetBrains Mono Variable", ui-monospace, monospace;
+  --leading-display: 1.04;
+  --font-sans: "Instrument Sans Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-heading: "Instrument Sans Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);

@@ -112,13 +112,16 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
         }}
       >
         <FieldGroup>
-          <div className="flex flex-col items-center gap-1.5 text-center">
-            <h1 className="font-heading text-2xl font-semibold tracking-tight">Welcome back</h1>
+          <div className="flex flex-col gap-2 pb-2">
+            <h1 className="font-heading text-3xl font-medium tracking-tight font-stretch-semi-condensed">
+              Welcome back
+            </h1>
             <FieldDescription>
               Don&apos;t have an account? <Link to="/signup">Sign up</Link>
             </FieldDescription>
             {lastLoginMethod && (
-              <p className="text-xs text-muted-foreground">
+              <p className="flex items-center gap-2 text-sm text-muted-foreground">
+                <span aria-hidden="true" className="size-1.5 rounded-full bg-cleared" />
                 Last sign-in used {LAST_LOGIN_METHOD_LABELS[lastLoginMethod] ?? lastLoginMethod}.
               </p>
             )}

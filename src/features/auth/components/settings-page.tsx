@@ -2,15 +2,7 @@ import { getRouteApi, useNavigate, useRouter } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "@tanstack/react-form-start";
 import { useState } from "react";
-import {
-  BadgeCheck,
-  CircleExclamationPoint,
-  KeyRound,
-  Link,
-  MailCheck,
-  Pencil,
-  Trash2,
-} from "lucide-react";
+import { KeyRound, MailCheck, Pencil, Trash2 } from "lucide-react";
 import type { Passkey } from "@better-auth/passkey";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -35,7 +27,9 @@ import { Field, FieldDescription, FieldError, FieldLabel } from "#/components/ui
 import { Input } from "#/components/ui/input";
 import { Skeleton } from "#/components/ui/skeleton";
 import { FormError } from "#/components/custom/form-error";
+import { Checklist, ChecklistItem } from "#/components/custom/checklist";
 import { Page } from "#/components/custom/page";
+import { PageSection } from "#/components/custom/page-section";
 
 const routeApi = getRouteApi("/_authenticated/settings");
 
@@ -116,27 +110,20 @@ export function SettingsPage() {
   });
 
   return (
-    <Page width="md" eyebrow="Settings" title="Account">
-      <div className="mt-12 space-y-10">
-        {/* Identity */}
-        <SettingsSection title="Profile">
-          <Row label="Email" value={user.email} />
-          <div className="flex items-center justify-between gap-4 py-1">
-            <span className="text-sm text-muted-foreground">Email status</span>
-            {user.emailVerified ? (
-              <span className="flex items-center gap-1.5 text-sm font-medium">
-                <BadgeCheck className="size-4 text-muted-foreground" />
-                Verified
-              </span>
-            ) : (
-              <span className="flex items-center gap-1.5 text-sm font-medium">
-                <CircleExclamationPoint className="size-4 text-muted-foreground" />
-                Not verified
-              </span>
-            )}
-          </div>
+    <Page eyebrow="Settings" title="Account" description={DESCRIPTION}>
+      <div className="mt-12">
+        <PageSection title="Profile" description={SECTIONS.profile}>
+          <Checklist className="max-w-xl">
+            <ChecklistItem label="Email" value={user.email} />
+            <ChecklistItem
+              label="Email status"
+              value={user.emailVerified ? "Verified" : "Not verified"}
+              mark={user.emailVerified ? "cleared" : "fault"}
+            />
+            {user.name && <ChecklistItem label="Name" value={user.name} />}
+          </Checklist>
           {!user.emailVerified && (
-            <div className="space-y-2">
+            <div className="flex flex-col items-start gap-2">
               <Button
                 type="button"
                 variant="outline"
@@ -150,15 +137,13 @@ export function SettingsPage() {
               <FieldDescription>We will email you a link to confirm this address.</FieldDescription>
             </div>
           )}
-          {user.name && <Row label="Name" value={user.name} />}
-        </SettingsSection>
+        </PageSection>
 
-        {/* Linked providers */}
-        <SettingsSection title="Linked providers">
+        <PageSection title="Linked providers" description={SECTIONS.providers}>
           {status === "pending" ? (
-            <div className="space-y-2" aria-busy="true">
-              <IconRowSkeleton />
-              <IconRowSkeleton />
+            <div className="flex max-w-xl flex-col gap-2" aria-busy="true">
+              <RowSkeleton />
+              <RowSkeleton />
             </div>
           ) : status === "error" ? (
             <p className="text-sm text-destructive" role="alert">
@@ -167,85 +152,87 @@ export function SettingsPage() {
           ) : accounts.length === 0 ? (
             <p className="text-sm text-muted-foreground">No linked providers.</p>
           ) : (
-            <ul className="space-y-2">
+            <Checklist className="max-w-xl">
               {accounts.map(acct => (
-                <li key={acct.id} className="flex items-center gap-2">
-                  <Link className="size-4 text-muted-foreground" />
-                  <span className="text-sm">{getProviderLabel(acct.providerId)}</span>
-                </li>
+                <ChecklistItem
+                  key={acct.id}
+                  label={getProviderLabel(acct.providerId)}
+                  value="Linked"
+                  mark="cleared"
+                />
               ))}
-            </ul>
+            </Checklist>
           )}
-        </SettingsSection>
+        </PageSection>
 
-        {/* Password */}
-        <SettingsSection title="Password">
+        <PageSection title="Password" description={SECTIONS.password}>
           {status === "pending" ? (
-            <div className="space-y-3" aria-busy="true">
-              <Skeleton className="h-5 w-40" />
-              <Skeleton className="h-8 w-32" />
+            <div className="flex max-w-xl flex-col gap-3" aria-busy="true">
+              <RowSkeleton />
+              <Skeleton className="h-8 w-36" />
             </div>
           ) : (
             <>
-              <Row
-                label="Last changed"
-                value={passwordAccount ? formatDate(passwordAccount.updatedAt) : "—"}
-              />
-              <Dialog open={passwordOpen} onOpenChange={setPasswordOpen}>
-                <DialogTrigger render={<Button type="button" variant="outline" size="sm" />}>
-                  <KeyRound className="size-4" />
-                  {hasPassword === false ? "Set a password" : "Change password"}
-                </DialogTrigger>
-                <DialogContent>
-                  <DialogHeader>
-                    <DialogTitle>
-                      {hasPassword === false ? "Set a password" : "Change password"}
-                    </DialogTitle>
-                    <DialogDescription>
-                      {hasPassword === true
-                        ? `Last changed ${formatDate(passwordAccount?.updatedAt)}. Updating it signs out your other sessions.`
-                        : hasPassword === false
-                          ? "This account has no password. We can email you a link to set one."
-                          : "We could not load your linked accounts. You can still email a link to set or reset your password."}
-                    </DialogDescription>
-                  </DialogHeader>
-                  <ChangePasswordForm
-                    email={user.email}
-                    userId={user.id}
-                    hasPassword={hasPassword}
-                    onDone={() => setPasswordOpen(false)}
-                  />
-                </DialogContent>
-              </Dialog>
+              <Checklist className="max-w-xl">
+                <ChecklistItem
+                  label="Last changed"
+                  value={passwordAccount ? formatDate(passwordAccount.updatedAt) : "—"}
+                />
+              </Checklist>
+              <div>
+                <Dialog open={passwordOpen} onOpenChange={setPasswordOpen}>
+                  <DialogTrigger render={<Button type="button" variant="outline" size="sm" />}>
+                    <KeyRound className="size-4" />
+                    {hasPassword === false ? "Set a password" : "Change password"}
+                  </DialogTrigger>
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle>
+                        {hasPassword === false ? "Set a password" : "Change password"}
+                      </DialogTitle>
+                      <DialogDescription>
+                        {hasPassword === true
+                          ? `Last changed ${formatDate(passwordAccount?.updatedAt)}. Updating it signs out your other sessions.`
+                          : hasPassword === false
+                            ? "This account has no password. We can email you a link to set one."
+                            : "We could not load your linked accounts. You can still email a link to set or reset your password."}
+                      </DialogDescription>
+                    </DialogHeader>
+                    <ChangePasswordForm
+                      email={user.email}
+                      userId={user.id}
+                      hasPassword={hasPassword}
+                      onDone={() => setPasswordOpen(false)}
+                    />
+                  </DialogContent>
+                </Dialog>
+              </div>
             </>
           )}
-        </SettingsSection>
+        </PageSection>
 
-        {/* Passkeys */}
-        <SettingsSection title="Passkeys">
+        <PageSection title="Passkeys" description={SECTIONS.passkeys}>
           {passkeysPending ? (
-            <div className="space-y-2" aria-busy="true">
-              <IconRowSkeleton />
+            <div className="max-w-xl" aria-busy="true">
+              <PasskeyRowSkeleton />
             </div>
           ) : !passkeys || passkeys.length === 0 ? (
             <p className="text-sm text-muted-foreground">No passkeys registered.</p>
           ) : (
-            <ul className="space-y-2">
+            <ul className="flex max-w-xl flex-col divide-y divide-border border-y border-border">
               {passkeys.map((pk: Passkey) => (
-                <li key={pk.id} className="flex items-center justify-between gap-4">
-                  <div className="flex items-center gap-2">
-                    <KeyRound className="size-4 text-muted-foreground" />
-                    <div>
-                      <p className="text-sm">{pk.name ?? "Passkey"}</p>
-                      <p className="text-xs text-muted-foreground">
-                        Added {formatDate(pk.createdAt)}
-                      </p>
-                    </div>
+                <li key={pk.id} className="flex items-center gap-3 py-3">
+                  <KeyRound aria-hidden="true" className="size-4 shrink-0 text-muted-foreground" />
+                  <div className="min-w-0 flex-1">
+                    <p className="truncate text-sm font-medium">{pk.name ?? "Passkey"}</p>
+                    <p className="text-xs text-muted-foreground">
+                      Added {formatDate(pk.createdAt)}
+                    </p>
                   </div>
                   <div className="flex items-center gap-1">
                     <Button
                       type="button"
-                      variant="outline"
+                      variant="ghost"
                       size="icon-sm"
                       aria-label={`Rename passkey: ${pk.name ?? "Passkey"}`}
                       onClick={() => setEditingPasskey(pk)}
@@ -254,7 +241,7 @@ export function SettingsPage() {
                     </Button>
                     <Button
                       type="button"
-                      variant="destructive"
+                      variant="ghost"
                       size="icon-sm"
                       disabled={deletePasskey.isPending && deletePasskey.variables === pk.id}
                       aria-label={`Delete passkey: ${pk.name ?? "Passkey"}`}
@@ -272,7 +259,6 @@ export function SettingsPage() {
               type="button"
               variant="outline"
               size="sm"
-              className="mt-3"
               onClick={() =>
                 void (async () => {
                   const { error } = await authClient.passkey.addPasskey();
@@ -305,16 +291,15 @@ export function SettingsPage() {
               )}
             </DialogContent>
           </Dialog>
-        </SettingsSection>
+        </PageSection>
 
-        {/* Danger zone */}
-        <SettingsSection title="Danger zone">
+        <PageSection title="Danger zone" description={SECTIONS.danger}>
           {confirmDelete ? (
-            <div className="space-y-3">
+            <div className="flex max-w-xl flex-col gap-3 border-l-2 border-destructive pl-4">
               <p className="text-sm text-destructive">
                 This permanently deletes your account and all data. This cannot be undone.
               </p>
-              <div className="flex gap-2">
+              <div className="flex flex-wrap gap-2">
                 <Button variant="destructive" size="sm" onClick={() => void handleDeleteAccount()}>
                   Yes, delete my account
                 </Button>
@@ -324,17 +309,19 @@ export function SettingsPage() {
               </div>
             </div>
           ) : (
-            <Button
-              type="button"
-              variant="destructive"
-              size="sm"
-              onClick={() => setConfirmDelete(true)}
-            >
-              <Trash2 className="size-4" />
-              Delete account
-            </Button>
+            <div>
+              <Button
+                type="button"
+                variant="destructive"
+                size="sm"
+                onClick={() => setConfirmDelete(true)}
+              >
+                <Trash2 className="size-4" />
+                Delete account
+              </Button>
+            </div>
           )}
-        </SettingsSection>
+        </PageSection>
       </div>
     </Page>
   );
@@ -553,70 +540,72 @@ function RenamePasskeyForm({
  */
 export function SettingsPageSkeleton() {
   return (
-    <Page width="md" eyebrow="Settings" title="Account">
+    <Page eyebrow="Settings" title="Account" description={DESCRIPTION}>
       <output className="sr-only">Loading account settings</output>
-      <div className="mt-12 space-y-10" aria-busy="true">
-        <SettingsSection title="Profile">
-          <RowSkeleton />
-          <RowSkeleton />
-          <RowSkeleton />
-        </SettingsSection>
+      <div className="mt-12" aria-busy="true">
+        <PageSection title="Profile" description={SECTIONS.profile}>
+          <div className="flex max-w-xl flex-col gap-2">
+            <RowSkeleton />
+            <RowSkeleton />
+          </div>
+        </PageSection>
 
-        <SettingsSection title="Linked providers">
-          <IconRowSkeleton />
-          <IconRowSkeleton />
-        </SettingsSection>
+        <PageSection title="Linked providers" description={SECTIONS.providers}>
+          <div className="flex max-w-xl flex-col gap-2">
+            <RowSkeleton />
+            <RowSkeleton />
+          </div>
+        </PageSection>
 
-        <SettingsSection title="Password">
-          <RowSkeleton />
-          <Skeleton className="h-8 w-32" />
-        </SettingsSection>
+        <PageSection title="Password" description={SECTIONS.password}>
+          <div className="flex max-w-xl flex-col gap-3">
+            <RowSkeleton />
+            <Skeleton className="h-8 w-36" />
+          </div>
+        </PageSection>
 
-        <SettingsSection title="Passkeys">
-          <IconRowSkeleton />
-          <Skeleton className="mt-3 h-8 w-32" />
-        </SettingsSection>
+        <PageSection title="Passkeys" description={SECTIONS.passkeys}>
+          <div className="flex max-w-xl flex-col gap-3">
+            <PasskeyRowSkeleton />
+            <Skeleton className="h-8 w-32" />
+          </div>
+        </PageSection>
 
-        <SettingsSection title="Danger zone">
+        <PageSection title="Danger zone" description={SECTIONS.danger}>
           <Skeleton className="h-8 w-36" />
-        </SettingsSection>
+        </PageSection>
       </div>
     </Page>
   );
 }
 
-function SettingsSection({ title, children }: { title: string; children: React.ReactNode }) {
-  return (
-    <section className="border-t border-border pt-6">
-      <h2 className="font-mono text-xs tracking-caps text-muted-foreground uppercase">{title}</h2>
-      <div className="mt-4 space-y-4">{children}</div>
-    </section>
-  );
-}
+const DESCRIPTION = "How you sign in, and what we know about you.";
 
-function Row({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="flex items-baseline justify-between gap-4 py-1">
-      <span className="text-sm text-muted-foreground">{label}</span>
-      <span className="truncate text-sm font-medium">{value}</span>
-    </div>
-  );
-}
+const SECTIONS = {
+  profile: "The address we send codes and links to.",
+  providers: "Ways you can sign in to this account.",
+  password: "Changing it signs out your other sessions.",
+  passkeys: "Sign in with your device's lock instead of a password.",
+  danger: "Deletes your account, notes and sessions.",
+} as const;
 
 function RowSkeleton() {
   return (
-    <div className="flex items-baseline justify-between gap-4 py-1">
-      <Skeleton className="h-5 w-16" />
+    <div className="flex items-baseline justify-between gap-4 py-3">
+      <Skeleton className="h-5 w-24" />
       <Skeleton className="h-5 w-40" />
     </div>
   );
 }
 
-function IconRowSkeleton() {
+function PasskeyRowSkeleton() {
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-3 py-3">
       <Skeleton className="size-4" />
-      <Skeleton className="h-5 w-24" />
+      <div className="flex flex-1 flex-col gap-1.5">
+        <Skeleton className="h-4 w-28" />
+        <Skeleton className="h-3 w-20" />
+      </div>
     </div>
   );
 }
