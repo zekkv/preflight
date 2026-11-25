@@ -14,4 +14,4 @@ COPY --from=builder /app/.output ./.output
 EXPOSE 3000
 USER bun
 
-CMD ["bun", "--bun", "--import", "./.output/server/instrument.server.mjs", ".output/server/index.mjs"]
+CMD ["bun", "--bun", ".output/server/index.mjs"]

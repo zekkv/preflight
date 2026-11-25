@@ -2,7 +2,15 @@ import { getRouteApi, useNavigate, useRouter } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "@tanstack/react-form-start";
 import { useState } from "react";
-import { BadgeCheck, CircleAlert, KeyRound, Link, MailCheck, Pencil, Trash2 } from "lucide-react";
+import {
+  BadgeCheck,
+  CircleExclamationPoint,
+  KeyRound,
+  Link,
+  MailCheck,
+  Pencil,
+  Trash2,
+} from "lucide-react";
 import type { Passkey } from "@better-auth/passkey";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -122,7 +130,7 @@ export function SettingsPage() {
               </span>
             ) : (
               <span className="flex items-center gap-1.5 text-sm font-medium">
-                <CircleAlert className="size-4 text-muted-foreground" />
+                <CircleExclamationPoint className="size-4 text-muted-foreground" />
                 Not verified
               </span>
             )}

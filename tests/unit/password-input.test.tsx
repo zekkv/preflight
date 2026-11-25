@@ -7,7 +7,7 @@ import { PasswordInput } from "#/features/auth/components/password-input";
 describe("PasswordInput component", () => {
   it("toggles the field between hidden and visible without submitting its form", async () => {
     const user = userEvent.setup();
-    const onSubmit = vi.fn<(event: React.FormEvent) => void>();
+    const onSubmit = vi.fn<(event: React.SubmitEvent) => void>();
     render(
       <form onSubmit={onSubmit}>
         <PasswordInput id="password" aria-label="Password" defaultValue="correct-horse" />

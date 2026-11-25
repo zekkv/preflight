@@ -1,4 +1,4 @@
-// oxlint-disable node/no-process-env, no-console, no-await-in-loop
+// oxlint-disable node/no-process-env, no-await-in-loop
 import { execFileSync, spawn } from "node:child_process";
 import type { ChildProcess } from "node:child_process";
 
