@@ -156,8 +156,8 @@ function QuickstartBlock() {
 
   return (
     <figure className="mt-12 max-w-lg">
-      <div className="flex items-center justify-between gap-4">
-        <figcaption className="text-sm text-muted-foreground">Quickstart</figcaption>
+      <figcaption className="flex items-center justify-between gap-4 text-sm text-muted-foreground">
+        <span>Quickstart</span>
         <Button
           type="button"
           variant="ghost"
@@ -167,7 +167,7 @@ function QuickstartBlock() {
         >
           {copied ? <Check className="size-4" /> : <Copy className="size-4" />}
         </Button>
-      </div>
+      </figcaption>
       <pre className="mt-1 overflow-x-auto rounded-md border border-border bg-muted px-4 py-3.5 font-mono text-xs leading-loose sm:text-sm">
         {QUICKSTART.split("\n").map(line => (
           <div key={line} className="whitespace-pre">

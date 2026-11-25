@@ -48,6 +48,11 @@ function formatDate(value: Date | string | null | undefined) {
   return value ? new Date(value).toLocaleDateString() : "—";
 }
 
+/** A date set in figures that line up (`tabular-nums`), for rows that show one. */
+function DateValue({ value }: { value: Date | string | null | undefined }) {
+  return <span className="tabular-nums">{formatDate(value)}</span>;
+}
+
 export function SettingsPage() {
   const { user } = routeApi.useRouteContext();
   const navigate = useNavigate();
@@ -176,7 +181,7 @@ export function SettingsPage() {
               <Checklist className="max-w-xl">
                 <ChecklistItem
                   label="Last changed"
-                  value={passwordAccount ? formatDate(passwordAccount.updatedAt) : "—"}
+                  value={passwordAccount ? <DateValue value={passwordAccount.updatedAt} /> : "—"}
                 />
               </Checklist>
               <div>
@@ -225,7 +230,7 @@ export function SettingsPage() {
                   <KeyRound aria-hidden="true" className="size-4 shrink-0 text-muted-foreground" />
                   <div className="min-w-0 flex-1">
                     <p className="truncate text-sm font-medium">{pk.name ?? "Passkey"}</p>
-                    <p className="text-xs text-muted-foreground">
+                    <p className="text-xs text-muted-foreground tabular-nums">
                       Added {formatDate(pk.createdAt)}
                     </p>
                   </div>
@@ -300,7 +305,11 @@ export function SettingsPage() {
                 This permanently deletes your account and all data. This cannot be undone.
               </p>
               <div className="flex flex-wrap gap-2">
-                <Button variant="destructive" size="sm" onClick={() => void handleDeleteAccount()}>
+                <Button
+                  variant="destructive-solid"
+                  size="sm"
+                  onClick={() => void handleDeleteAccount()}
+                >
                   Yes, delete my account
                 </Button>
                 <Button variant="outline" size="sm" onClick={() => setConfirmDelete(false)}>

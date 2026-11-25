@@ -68,12 +68,13 @@ export function DashboardPage() {
       title={`Welcome, ${user.name?.trim() || user.email}`}
       description={DESCRIPTION}
     >
-      <Checklist ruled className="mt-10 mb-12 max-w-2xl border-y border-border">
+      <Checklist ruled bordered className="mt-10 mb-12 max-w-2xl">
         <ChecklistItem label="Session" value="Active" mark="cleared" />
         <ChecklistItem
           label="Email"
-          value={user.email}
+          value={user.emailVerified ? user.email : `${user.email} (not verified)`}
           mark={user.emailVerified ? "cleared" : "pending"}
+          stackOnMobile
         />
         <ChecklistItem label="Notes" value={<span className="tabular-nums">{notes.length}</span>} />
       </Checklist>
@@ -187,7 +188,7 @@ export function DashboardPageSkeleton() {
     >
       <output className="sr-only">Loading dashboard</output>
       <div aria-busy="true">
-        <Checklist ruled className="mt-10 mb-12 max-w-2xl border-y border-border">
+        <Checklist ruled bordered className="mt-10 mb-12 max-w-2xl">
           {["Session", "Email", "Notes"].map(label => (
             <ChecklistItem key={label} label={label} value={<Skeleton className="h-5 w-24" />} />
           ))}
@@ -244,9 +245,9 @@ function FileUploadSection() {
   return (
     <PageSection title="File upload" description={UPLOAD_DESCRIPTION}>
       <div className="flex flex-wrap items-center justify-between gap-x-5 gap-y-3 rounded-md border border-border p-5">
-        <p className="text-sm text-muted-foreground">
+        <output className="text-sm text-muted-foreground">
           {upload.isPending ? "Uploading…" : "The browser sends the file straight to storage."}
-        </p>
+        </output>
         <Input
           ref={inputRef}
           type="file"
@@ -270,10 +271,15 @@ function FileUploadSection() {
       </div>
 
       {upload.status === "success" ? (
-        <Checklist>
+        <Checklist aria-live="polite">
           <ChecklistItem
-            label={upload.data.name}
-            value={<code className="font-mono text-xs">{upload.data.key}</code>}
+            label="Uploaded"
+            value={
+              <>
+                {upload.data.name}
+                <code className="mt-0.5 block font-mono text-xs">{upload.data.key}</code>
+              </>
+            }
             mark="cleared"
             stackOnMobile
           />

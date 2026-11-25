@@ -121,7 +121,7 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
             </FieldDescription>
             {lastLoginMethod && (
               <p className="flex items-center gap-2 text-sm text-muted-foreground">
-                <span aria-hidden="true" className="size-1.5 rounded-full bg-cleared" />
+                <span aria-hidden="true" className="size-1.5 rounded-full bg-muted-foreground" />
                 Last sign-in used {LAST_LOGIN_METHOD_LABELS[lastLoginMethod] ?? lastLoginMethod}.
               </p>
             )}

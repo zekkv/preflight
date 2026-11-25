@@ -11,14 +11,25 @@ import { cn } from "#/lib/utils";
 export function Checklist({
   children,
   ruled = false,
+  bordered = false,
   className,
   ...props
 }: React.ComponentProps<"ul"> & {
   /** A hairline between rows, for lists long enough that the eye needs help along each line. */
   ruled?: boolean;
+  /** Hairlines above the first row and below the last, for a list that stands on its own. */
+  bordered?: boolean;
 }) {
   return (
-    <ul className={cn("flex flex-col", ruled && "divide-y divide-border", className)} {...props}>
+    <ul
+      className={cn(
+        "flex flex-col",
+        ruled && "divide-y divide-border",
+        bordered && "border-y border-border",
+        className
+      )}
+      {...props}
+    >
       {children}
     </ul>
   );
@@ -66,7 +77,9 @@ export function ChecklistItem({ label, value, mark, stackOnMobile = false }: Che
       <span
         className={cn(
           "inline-flex min-w-0 items-baseline gap-1.5 text-right text-muted-foreground",
-          stackOnMobile && "basis-full pl-6.5 text-left sm:basis-auto sm:pl-0 sm:text-right"
+          stackOnMobile && "basis-full text-left sm:basis-auto sm:text-right",
+          // Line the stacked value up with the label, which sits after the tick when there is one.
+          stackOnMobile && mark === "tick" && "pl-6.5 sm:pl-0"
         )}
       >
         {dot && (

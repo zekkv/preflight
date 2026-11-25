@@ -29,15 +29,19 @@ export function ErrorPage({
 
   return (
     <Page width="md" className={cn("py-24 md:py-32", className)}>
-      <div className="flex max-w-xl animate-in flex-col gap-8 duration-500 fade-in">
+      <div className="flex max-w-xl flex-col gap-8">
         <h1 className="font-heading text-3xl font-medium tracking-tight text-balance font-stretch-semi-condensed md:text-4xl">
           {title}
         </h1>
 
-        <Checklist ruled className="border-y border-border">
-          <ChecklistItem label="Status" value={status} mark="fault" />
-          <ChecklistItem label="Detail" value={message} stackOnMobile />
-        </Checklist>
+        <div className="flex flex-col gap-4">
+          <Checklist bordered>
+            <ChecklistItem label="Status" value={status} mark="fault" />
+          </Checklist>
+          <p className="max-h-48 overflow-auto text-sm whitespace-pre-wrap text-muted-foreground wrap-anywhere">
+            {message}
+          </p>
+        </div>
 
         <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
           {reset && (

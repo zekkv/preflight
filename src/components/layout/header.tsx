@@ -4,21 +4,18 @@ import { LogOut, SquareCheck } from "lucide-react";
 import { toast } from "sonner";
 
 import { authClient } from "#/lib/auth-client";
-import { cn } from "#/lib/utils";
 import { Button, buttonVariants } from "#/components/ui/button";
 import { ThemeToggle } from "#/components/ui/theme-toggle";
 
 // Muted until it is the current page; TanStack Router marks that link `data-status="active"`.
-const navLink = cn(
-  buttonVariants({ variant: "ghost", size: "sm" }),
-  "px-2 text-muted-foreground data-[status=active]:text-foreground sm:px-3"
-);
+const navLink = buttonVariants({ variant: "nav", size: "nav" });
 
 // Hidden on phones, where the signed-in nav needs the room.
-const githubLink = cn(
-  buttonVariants({ variant: "ghost", size: "icon-sm" }),
-  "hidden sm:inline-flex"
-);
+const githubLink = buttonVariants({
+  variant: "ghost",
+  size: "icon-sm",
+  className: "hidden sm:inline-flex",
+});
 
 function GitHubMark() {
   return (

@@ -30,7 +30,7 @@ export function Page({
         <header className="max-w-2xl">
           {eyebrow && <p className="text-sm text-muted-foreground">{eyebrow}</p>}
           {title && (
-            <h1 className="font-heading mt-3 text-3xl font-medium tracking-tight text-balance font-stretch-semi-condensed md:text-4xl">
+            <h1 className="font-heading mt-3 text-3xl font-medium tracking-tight text-balance font-stretch-semi-condensed wrap-break-word md:text-4xl">
               {title}
             </h1>
           )}

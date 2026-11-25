@@ -36,7 +36,7 @@ typography:
     letterSpacing: -0.025em
   h2:
     fontFamily: Instrument Sans Variable
-    fontSize: 18px
+    fontSize: 16px
     fontWeight: 600
     lineHeight: 1.3
     letterSpacing: -0.025em
@@ -89,6 +89,10 @@ components:
     textColor: "{colors.foreground}"
     borderColor: "{colors.input}"
     rounded: "{rounded.md}"
+  button-destructive-solid:
+    backgroundColor: "{colors.destructive}"
+    textColor: "{colors.destructive-foreground}"
+    rounded: "{rounded.md}"
   button-destructive:
     backgroundColor: transparent
     textColor: "{colors.destructive}"
@@ -117,7 +121,7 @@ components:
 The system is called **Checklist**. The product is a template that has already done the tedious setup, so the UI borrows the vernacular of its name: a pilot's preflight card, where every line reads _item ........ response_ and is either cleared or not.
 
 - **One device, used with discipline.** The checklist row (`Checklist` / `ChecklistItem` in `src/components/custom/checklist.tsx`) is the only memorable element. It appears where the app reports state, and only there: the landing page's "Preflight checklist", the dashboard summary (session, email, note count), settings rows (email status, linked providers, last password change), the uploaded file's key, and the error and 404 pages.
-- **Restraint everywhere else.** Hairlines and whitespace separate sections, never cards or shadows. One accent colour, used only for "done". One motion, the hero fade-in.
+- **Restraint everywhere else.** Hairlines and whitespace separate sections, not cards or shadows. One accent colour, used for "done". One motion, the hero fade-in.
 - **Audience:** developers evaluating a foundation. The landing page's job is to show what is already wired and get them to `git clone` → `bun dev`; the app pages show the wiring working.
 
 ## Colors
@@ -130,8 +134,8 @@ Cool, near-neutral greys with a faint blue bias (hue ~264), so they read as chos
 - **Muted-foreground (oklch(0.495 …)):** descriptions, checklist responses, table headers, captions.
 - **Border (oklch(0.922 …)):** hairlines between sections and rows.
 - **Input (oklch(0.845 …)):** control outlines and the dotted checklist leader. It is a step darker than `border`, because a control has to read as a control.
-- **Cleared (oklch(0.482 0.071 170)):** a deep green and the only chromatic accent. It means "done" — checklist ticks, the verified/active/linked status dot, met password requirements, the wordmark tick — and it is the focus ring (`ring`). Never use it for decoration, links or primary actions.
-- **Destructive (oklch(0.52 0.161 29)):** errors, the "not verified" dot, the 404 status dot, and destructive actions. Destructive buttons are outlined, not filled, until the final confirmation.
+- **Cleared (oklch(0.482 0.071 170)):** a deep green and the only chromatic accent. It means "done" (checklist ticks, the verified/active/linked status dot, met password requirements) and it is the focus ring (`ring`). Its one brand use is the wordmark's tick. Never use it for links, primary actions, or other decoration. The login page's "Last sign-in used …" dot is muted, not green, because nothing there is done.
+- **Destructive (oklch(0.52 0.161 29)):** errors, the "not verified" dot, the error/404 status dot, and destructive actions. Destructive buttons are outlined (`variant="destructive"`); only the final, irreversible confirmation ("Yes, delete my account") is filled (`variant="destructive-solid"`, text in `destructive-foreground`).
 
 Dark: background oklch(0.204 0.007 258), foreground oklch(0.931 0.004 271), card/muted oklch(0.238 0.009 256), muted-foreground oklch(0.714 0.014 262), border oklch(0.289 0.012 264), input oklch(0.363 0.015 264), cleared and ring oklch(0.753 0.077 168), destructive oklch(0.721 0.123 27).
 
@@ -142,11 +146,11 @@ Two faces, both self-hosted through Fontsource.
 - **Instrument Sans Variable** (`@fontsource-variable/instrument-sans/standard.css`, which carries the weight _and_ width axes) is the only text face. Headings are set slightly condensed with `font-stretch-semi-condensed` (87.5%), weight 500 and `tracking-tight`. That narrowing is the typographic signature; body text stays at full width.
   - Display: the landing "Start from done." at `text-5xl md:text-6xl`, `md:leading-display` (1.04).
   - Page title (`Page`'s `h1`, auth headings): `text-3xl md:text-4xl` (auth pages stay at `text-3xl`).
-  - Section titles (`h2`): `text-base`–`text-xl`, weight 600, full width.
+  - Section titles (`h2`): `text-base` in `PageSection` (the common case), `text-lg`–`text-xl` on the landing page; weight 600, full width.
   - Body: 16px, with `text-lg` for the landing lede and `text-sm` for descriptions and tables.
-- **IBM Plex Mono** (400 and 500) appears only for literal code: the quickstart commands, the directory tree, `src/features`, and object keys. It is never used for labels, eyebrows or numbers.
+- **IBM Plex Mono** (400 and 500) appears only for literal code: the quickstart commands, the directory tree, `src/features`, object keys, and the one-time code field (`Input variant="otp"`), whose digits are a code. It is never used for labels, eyebrows or ordinary numbers.
 - No uppercase tracked labels anywhere. Eyebrows (`Page`'s `eyebrow`) are plain `text-sm text-muted-foreground`, in sentence case.
-- Numbers that change or line up use `tabular-nums`.
+- Numbers that change or line up use `tabular-nums`: the dashboard note count and dates, the settings "Last changed" and passkey "Added" dates, the landing "9 of 9 checked".
 
 ## Layout
 
@@ -158,11 +162,11 @@ Two faces, both self-hosted through Fontsource.
 
 ## Elevation & Depth
 
-Flat. No shadows on page content, no gradients, no glass. Hierarchy comes from the type scale, ink versus muted, and hairlines. The one raised surface is the dialog (upstream shadcn, a ring over a blurred scrim).
+Flat. No shadows on page content, no gradients, no glass. Hierarchy comes from the type scale, ink versus muted, and hairlines. The only raised surfaces are transient overlays from upstream shadcn: the dialog (a ring over a blurred scrim) and Sonner toasts.
 
 ## Shapes
 
-`--radius: 0.5rem`. Controls (buttons, inputs) are `rounded-md` (6px), and the quickstart well and upload panel are `rounded-md` too. Checklist ticks are `rounded-sm`, status dots are circles, and dialogs are `rounded-xl`. Sections have no radius at all, because they are separated by rules rather than boxed.
+`--radius: 0.5rem`. Controls (buttons, inputs) are `rounded-md` (6px), and the quickstart well and upload panel are `rounded-md` too. Those two are the only boxed areas on a page: one holds code to copy, the other a control target. Checklist ticks are `rounded-sm`, status dots are circles, and dialogs are `rounded-xl`. Sections have no radius at all, because they are separated by rules rather than boxed.
 
 ## Components
 
@@ -170,16 +174,24 @@ Flat. No shadows on page content, no gradients, no glass. Hierarchy comes from t
   - `mark="tick"` draws a filled green box before the label (an item that is done; the landing checklist).
   - `mark="cleared" | "pending" | "fault"` draws a status dot before the value (green / grey / red).
   - `stackOnMobile` drops the leader and wraps the value under the label below `sm`, for long responses.
-  - `Checklist ruled` adds a hairline between rows; add `border-y border-border` on the list when it stands alone (the dashboard summary, the error page).
+  - `Checklist ruled` adds a hairline between rows; `Checklist bordered` adds one above the first and below the last, for a list that stands alone (the dashboard summary, the error page).
+  - Labels do not wrap or shrink, so keep them to short fixed words ("Email", "Uploaded"). Put anything user-supplied or long, such as a file name, an address or an object key, in `value`, which wraps.
 - **PageSection** (`#/components/custom/page-section`): titled band with a left rail; use it for every group on an app page.
 - **Page** (`#/components/custom/page`): the page shell; `eyebrow` is a plain muted line, not a mono label.
-- **Buttons** (`src/components/ui/button.tsx`): `default` is solid ink, `h-10 px-4`; `outline` is a white card with an `input` border that darkens on hover (no shadow); `ghost` for header links and icon actions (note and passkey delete buttons are ghost icons, not red); `destructive` is a red outline that fills faintly on hover. `sm` is `h-8`, `lg` is `h-11`.
-- **Links:** inline links are ink with an `input`-coloured underline that darkens on hover (`underline decoration-input underline-offset-4 hover:decoration-foreground`). Link-shaped buttons are plain `<a>`/`<Link>` elements styled with `buttonVariants(...)`, never `Button render={<a>}`, which drops native link semantics and makes Base UI warn. Merge extra classes with `cn(buttonVariants(...), "...")`, because `buttonVariants({ className })` concatenates without resolving conflicts.
+- **Buttons** (`src/components/ui/button.tsx`):
+  - `default` is solid ink, `h-10 px-4`.
+  - `outline` is a white card with an `input` border that darkens on hover (no shadow).
+  - `ghost` is for icon actions; the note and passkey delete buttons are ghost icons, not red.
+  - `destructive` is a red outline that fills faintly on hover; `destructive-solid` is filled, for the final confirmation only.
+  - `nav` (with `size="nav"`) is the header links: muted until the link is the current page (`data-status="active"`), with `px-2` on phones and `px-3` above.
+  - `sm` is `h-8`, `lg` is `h-11`.
+- **Links:** standalone inline links ("View on GitHub") are ink with an `input`-coloured underline that darkens on hover (`underline decoration-input underline-offset-4 hover:decoration-foreground`). Links inside a `FieldDescription` (Sign up, Forgot your password?, Go back) keep that primitive's own treatment: muted text with a current-colour underline. Link-shaped buttons are plain `<a>`/`<Link>` elements styled with `buttonVariants(...)`, never `Button render={<a>}`, which drops native link semantics and makes Base UI warn. `buttonVariants` resolves class conflicts itself (it runs `cn` over the `cva` output), so a `className` passed to it merges correctly.
 - **Inputs:** `h-10`, `bg-card`, `border-input`, focus ring in `ring` (cleared green). `PasswordInput`'s `InputGroup` matches. The OTP field is `variant="otp"`: `h-12`, mono, centred, tracked.
 - **Password requirements:** a list of small tick boxes that fill green as each rule is met. It keeps the accessible `aria-label` "<rule>: met | not met".
 - **Tables:** muted `text-xs` headers, hairline rows, no outer padding on the first and last columns. Dates are muted and tabular.
 - **Quickstart:** caption row ("Quickstart" plus a ghost copy button), then a `bg-muted` well with mono commands and muted `$` prompts.
-- **Error / 404:** title, then a ruled checklist (`Status ........ ● 404`, `Detail ........ message`), then "Try again" / "Back to home".
+- **Error / 404:** title, a bordered checklist row (`Status ........ ● 404`, or `Error`), the message below it in muted text (whitespace kept, scrolls past 12rem), then "Try again" / "Back to home".
+- **Upload:** a bordered panel with a status line (`<output>`, so "Uploading…" is announced) and "Choose file". A success adds an `Uploaded ........ ● <file name> <object key>` row.
 - **Theme toggle:** a single ghost icon button that switches to the other theme.
 
 ## Do's and Don'ts
