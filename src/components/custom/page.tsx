@@ -4,7 +4,7 @@ import { cn } from "#/lib/utils";
 const WIDTHS = {
   sm: "max-w-sm",
   md: "max-w-2xl",
-  lg: "max-w-4xl",
+  lg: "max-w-6xl",
 } as const;
 
 interface PageProps {
@@ -25,16 +25,12 @@ export function Page({
   className,
 }: PageProps) {
   return (
-    <main className={cn("mx-auto w-full px-6 py-16", WIDTHS[width], className)}>
+    <main className={cn("mx-auto w-full px-4 py-16 sm:px-8 md:py-20", WIDTHS[width], className)}>
       {(eyebrow || title || description) && (
-        <header>
-          {eyebrow && (
-            <p className="font-mono text-xs tracking-caps text-muted-foreground uppercase">
-              {eyebrow}
-            </p>
-          )}
+        <header className="max-w-2xl">
+          {eyebrow && <p className="text-sm text-muted-foreground">{eyebrow}</p>}
           {title && (
-            <h1 className="font-heading mt-3 text-3xl font-semibold tracking-tight md:text-4xl">
+            <h1 className="font-heading mt-3 text-3xl font-medium tracking-tight text-balance font-stretch-semi-condensed wrap-break-word md:text-4xl">
               {title}
             </h1>
           )}

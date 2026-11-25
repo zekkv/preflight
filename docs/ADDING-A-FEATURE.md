@@ -135,6 +135,8 @@ export function DashboardPage() {
 }
 ```
 
+Build the view from the shared pieces in `src/components/custom/` so it matches the rest of the app: `Page` for the shell, a `PageSection` per group, and `Checklist` rows for any state the user should see at a glance. [DESIGN.md](./DESIGN.md) covers when each applies.
+
 TanStack Router discovers the file and regenerates `src/routeTree.gen.ts`; do not edit that file by hand. After a mutation succeeds, call `router.invalidate()` so the loader refetches, as the dashboard does.
 
 ## 6. Test the feature

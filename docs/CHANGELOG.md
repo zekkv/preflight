@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Changed
+
+- **Design system**: Replaced the monochrome "Typeset" look with "Checklist" (see `docs/DESIGN.md`). It uses a cool near-neutral palette with one accent (`--cleared`, a deep green that means "done" and marks focus), Instrument Sans with semi-condensed headings, and IBM Plex Mono for code only. A preflight-card checklist row (item, dotted leader, response) now reports state on the landing page, dashboard, settings and error pages.
+- **Layout**: App pages use a left-rail `PageSection` band; the landing page splits the hero and a "Preflight checklist" side by side. The header shows a wordmark, "Sign in" when signed out, and Dashboard / Settings links when signed in.
+- **Primitives**: Buttons and inputs are `h-10` on a white card surface with no shadow. Destructive buttons are outlined. Table headers are muted and smaller.
+
+### Removed
+
+- The TanStack logo images in `public/brand/` (the header uses a text wordmark) and the Schibsted Grotesk and JetBrains Mono font packages.
+
 ## [1.0.0] - 2026-05-01
 
 ### Added

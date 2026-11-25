@@ -7,7 +7,7 @@ export type Theme = "dark" | "light" | "system";
 export { useTheme };
 
 /** `--background` from `globals.css` for each theme, as the hex `<meta name="theme-color">` takes. */
-export const THEME_COLORS = { light: "#fcfcfc", dark: "#0c0c0c" } as const;
+export const THEME_COLORS = { light: "#fbfbfc", dark: "#15171a" } as const;
 
 /**
  * Keeps `<meta name="theme-color">` (the browser toolbar tint on mobile and in installed apps) on

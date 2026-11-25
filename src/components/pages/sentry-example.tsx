@@ -15,10 +15,12 @@ export function SentryExamplePage() {
   }, []);
 
   return (
-    <Page className="flex min-h-[calc(100vh-4rem)] items-center justify-center p-4">
+    <Page width="sm" className="flex min-h-[calc(100vh-4rem)] items-center justify-center">
       <div className="w-full max-w-md space-y-4 rounded-md border border-border p-6">
         <div className="space-y-2">
-          <h1 className="font-heading text-2xl font-semibold tracking-tight">Sentry client test</h1>
+          <h1 className="font-heading text-3xl font-medium tracking-tight font-stretch-semi-condensed">
+            Sentry client test
+          </h1>
           <p className="text-sm text-muted-foreground">
             Open this page, then click the button and watch for a client log.
           </p>

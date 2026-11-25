@@ -20,11 +20,12 @@ This project is opinionated towards [Bun](https://bun.sh/) and renders on the se
 │   ├── CHANGELOG.md      # Release history
 │   ├── CONTRIBUTING.md   # Branch, commit, and test conventions
 │   ├── DEPLOYMENT.md     # Hosting options and platform config
-│   ├── DESIGN.md         # Visual system notes
+│   ├── DESIGN.md         # Design system: tokens, type, layout, components
 │   └── DEVELOPMENT.md    # Local setup, scripts, database, and testing guide
 ├── AGENTS.md             # Developer guide for agents
 ├── src/
 │   ├── components/
+│   │   ├── custom/       # App-owned building blocks: Page, PageSection, Checklist, FormError
 │   │   ├── layout/       # Header and shell layout
 │   │   ├── pages/        # Route-level page compositions
 │   │   ├── providers/    # Client providers (theme)

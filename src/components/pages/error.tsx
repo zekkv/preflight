@@ -4,7 +4,8 @@ import { Link } from "@tanstack/react-router";
 import type { ErrorComponentProps } from "@tanstack/react-router";
 
 import { cn } from "cn";
-import { Button } from "#/components/ui/button";
+import { Button, buttonVariants } from "#/components/ui/button";
+import { Checklist, ChecklistItem } from "#/components/custom/checklist";
 import { Page } from "#/components/custom/page";
 import { RootDocument } from "#/components/layout/root-document";
 
@@ -13,6 +14,8 @@ interface ErrorPageProps {
   reset?: () => void;
   className?: string;
   title?: string;
+  /** The short state shown on the first checklist row, such as an HTTP status. */
+  status?: string;
 }
 
 export function ErrorPage({
@@ -20,34 +23,35 @@ export function ErrorPage({
   reset,
   className,
   title = "Something went wrong",
+  status = "Error",
 }: ErrorPageProps) {
   const message = error instanceof Error ? error.message : String(error);
 
   return (
-    <Page
-      className={cn("flex min-h-[70vh] max-w-md flex-col items-center justify-center", className)}
-    >
-      <div className="w-full space-y-8 animate-in fade-in duration-500">
-        <div className="space-y-3">
-          <p className="font-mono text-xs tracking-caps text-muted-foreground uppercase">Error</p>
-          <h1 className="font-heading text-2xl font-semibold tracking-tight md:text-3xl">
-            {title}
-          </h1>
+    <Page width="md" className={cn("py-24 md:py-32", className)}>
+      <div className="flex max-w-xl flex-col gap-8">
+        <h1 className="font-heading text-3xl font-medium tracking-tight text-balance font-stretch-semi-condensed md:text-4xl">
+          {title}
+        </h1>
+
+        <div className="flex flex-col gap-4">
+          <Checklist bordered>
+            <ChecklistItem label="Status" value={status} mark="fault" />
+          </Checklist>
+          <p className="max-h-48 overflow-auto text-sm whitespace-pre-wrap text-muted-foreground wrap-anywhere">
+            {message}
+          </p>
         </div>
 
-        <pre className="max-h-48 overflow-auto rounded-md border border-border bg-card p-4 font-mono text-xs break-words whitespace-pre-wrap text-muted-foreground">
-          {message}
-        </pre>
-
-        <div className="flex flex-col items-start gap-3">
+        <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
           {reset && (
-            <Button type="button" variant="link" size="sm" onClick={reset}>
+            <Button type="button" onClick={reset}>
               Try again
             </Button>
           )}
-          <Button variant="link" size="sm" render={<Link to="/" />}>
+          <Link to="/" className={buttonVariants({ variant: reset ? "outline" : "default" })}>
             Back to home
-          </Button>
+          </Link>
         </div>
       </div>
     </Page>
@@ -80,7 +84,11 @@ export function RootErrorPage(props: ErrorComponentProps) {
 export function RootNotFoundPage() {
   return (
     <RootDocument meta={<meta name="robots" content="noindex, nofollow" />}>
-      <ErrorPage error="The page you are looking for does not exist." title="404 - Not Found" />
+      <ErrorPage
+        error="The page you are looking for does not exist."
+        title="404 - Not Found"
+        status="404"
+      />
     </RootDocument>
   );
 }

@@ -1,11 +1,21 @@
 import { Link, useNavigate, useRouteContext, useRouter } from "@tanstack/react-router";
 import { useMutation } from "@tanstack/react-query";
-import { LogOut } from "lucide-react";
+import { LogOut, SquareCheck } from "lucide-react";
 import { toast } from "sonner";
 
 import { authClient } from "#/lib/auth-client";
-import { Button } from "#/components/ui/button";
+import { Button, buttonVariants } from "#/components/ui/button";
 import { ThemeToggle } from "#/components/ui/theme-toggle";
+
+// Muted until it is the current page; TanStack Router marks that link `data-status="active"`.
+const navLink = buttonVariants({ variant: "nav", size: "nav" });
+
+// Hidden on phones, where the signed-in nav needs the room.
+const githubLink = buttonVariants({
+  variant: "ghost",
+  size: "icon-sm",
+  className: "hidden sm:inline-flex",
+});
 
 function GitHubMark() {
   return (
@@ -34,44 +44,41 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-background">
-      <div className="flex h-14 w-full items-center justify-between px-6">
+      <div className="mx-auto flex h-14 w-full max-w-6xl items-center justify-between gap-2 px-4 sm:px-8">
         <Link
           to="/"
-          aria-label="TanStack Start home"
-          className="inline-flex items-center transition-opacity hover:opacity-60"
+          aria-label="preflight home"
+          className="inline-flex items-center gap-2 text-base font-semibold tracking-tight"
         >
-          <img
-            src="/brand/tanstack-landscape-black.svg"
-            alt=""
-            width={129}
-            height={20}
-            className="h-5 w-auto dark:hidden"
-          />
-          <img
-            src="/brand/tanstack-landscape-white.svg"
-            alt=""
-            width={129}
-            height={20}
-            className="hidden h-5 w-auto dark:block"
-          />
+          <SquareCheck aria-hidden="true" className="size-4.5 text-cleared" />
+          <span>preflight</span>
         </Link>
 
-        <nav className="flex items-center gap-1">
-          <Button
-            variant="ghost"
-            size="icon-sm"
-            render={
-              <a
-                href="https://github.com/zekkv/preflight"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="GitHub repository"
-                title="GitHub repository"
-              />
-            }
+        <nav className="flex items-center sm:gap-1">
+          {user ? (
+            <>
+              <Link to="/dashboard" className={navLink}>
+                Dashboard
+              </Link>
+              <Link to="/settings" className={navLink}>
+                Settings
+              </Link>
+            </>
+          ) : (
+            <Link to="/login" className={navLink}>
+              Sign in
+            </Link>
+          )}
+          <a
+            href="https://github.com/zekkv/preflight"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="GitHub repository"
+            title="GitHub repository"
+            className={githubLink}
           >
             <GitHubMark />
-          </Button>
+          </a>
           <ThemeToggle />
           {user && (
             <Button

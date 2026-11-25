@@ -42,14 +42,16 @@ function RequestReset({ expired }: { expired: boolean }) {
   if (sent) {
     return (
       <FieldGroup>
-        <div className="flex flex-col items-center gap-1.5 text-center">
-          <h1 className="font-heading text-2xl font-semibold tracking-tight">Check your email</h1>
+        <div className="flex flex-col gap-2 pb-2">
+          <h1 className="font-heading text-3xl font-medium tracking-tight font-stretch-semi-condensed">
+            Check your email
+          </h1>
           <FieldDescription>
             If an account exists for that address, we sent a link to set a new password. It expires
             in 1 hour.
           </FieldDescription>
         </div>
-        <FieldDescription className="text-center">
+        <FieldDescription>
           <Link to="/login">Back to sign in</Link>
         </FieldDescription>
       </FieldGroup>
@@ -64,8 +66,8 @@ function RequestReset({ expired }: { expired: boolean }) {
       }}
     >
       <FieldGroup>
-        <div className="flex flex-col items-center gap-1.5 text-center">
-          <h1 className="font-heading text-2xl font-semibold tracking-tight">
+        <div className="flex flex-col gap-2 pb-2">
+          <h1 className="font-heading text-3xl font-medium tracking-tight font-stretch-semi-condensed">
             Reset your password
           </h1>
           <FieldDescription>
@@ -111,7 +113,7 @@ function RequestReset({ expired }: { expired: boolean }) {
           )}
         </form.Subscribe>
 
-        <FieldDescription className="text-center">
+        <FieldDescription>
           Remembered it? <Link to="/login">Sign in</Link>
         </FieldDescription>
       </FieldGroup>
@@ -149,8 +151,10 @@ function SetNewPassword({ token }: { token: string }) {
       }}
     >
       <FieldGroup>
-        <div className="flex flex-col items-center gap-1.5 text-center">
-          <h1 className="font-heading text-2xl font-semibold tracking-tight">Set a new password</h1>
+        <div className="flex flex-col gap-2 pb-2">
+          <h1 className="font-heading text-3xl font-medium tracking-tight font-stretch-semi-condensed">
+            Set a new password
+          </h1>
           <FieldDescription>Choose a password you do not use anywhere else.</FieldDescription>
         </div>
 
