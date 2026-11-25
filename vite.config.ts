@@ -17,6 +17,9 @@ logger.warn = (msg, options) => {
 const config = defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "");
   const isDev = mode === "development";
+  const hasSentryAuthToken = Boolean(
+    env.SENTRY_AUTH_TOKEN && env.SENTRY_AUTH_TOKEN !== "your-sentry-auth-token"
+  );
 
   return {
     customLogger: logger,
@@ -42,15 +45,18 @@ const config = defineConfig(({ mode }) => {
       }),
       tailwindcss(),
       tanstackStart(),
-      ...(env.SENTRY_AUTH_TOKEN && env.SENTRY_AUTH_TOKEN !== "your-sentry-auth-token"
-        ? [
-            sentryTanstackStart({
+      // Always registered: since Sentry SDK 11.13 the plugin bundles `instrument.server.mjs` into
+      // the Nitro build and runs it when the server starts, so production needs no `--import`
+      // preload. Release creation and source-map upload only run when an auth token is set.
+      sentryTanstackStart(
+        hasSentryAuthToken
+          ? {
               org: env.VITE_SENTRY_ORG,
               project: env.VITE_SENTRY_PROJECT,
               authToken: env.SENTRY_AUTH_TOKEN,
-            }),
-          ]
-        : []),
+            }
+          : { sourcemaps: { disable: true }, telemetry: false, silent: true }
+      ),
       viteReact(),
     ],
   };

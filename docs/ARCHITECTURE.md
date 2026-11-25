@@ -117,7 +117,7 @@ Rate limiting is configured at 20 requests per 60-second window using Better Aut
 
 ### LogTape + Sentry
 
-LogTape provides the app logger in `src/lib/logger.ts`. The server bootstrap (`instrument.server.mjs`) initialises Sentry with:
+LogTape provides the app logger in `src/lib/logger.ts`. The server bootstrap (`instrument.server.mjs`) initialises Sentry. In development `bun run dev` preloads it with `--import`; in production builds the `sentryTanstackStart` Vite plugin bundles it into the Nitro server and runs it when the server starts, so `bun run start` and the Docker image need no preload. It configures:
 
 - `dataCollection` — user identifiers, cookies, request bodies, and database payloads are not forwarded.
 - `tracesSampleRate: 0.1` — 10% of server traces are sampled to control cost.

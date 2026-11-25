@@ -250,11 +250,14 @@ function ChartLegendContent({
   className,
   hideIcon = false,
   payload,
-  verticalAlign = "bottom",
+  position,
   nameKey,
 }: React.ComponentProps<"div"> & {
   hideIcon?: boolean;
   nameKey?: string;
+  // Legend forwards all of its props to custom content, but recharts only types the
+  // deprecated `verticalAlign` on DefaultLegendContentProps, not its replacement.
+  position?: RechartsPrimitive.LegendProps["position"];
 } & RechartsPrimitive.DefaultLegendContentProps) {
   const { config } = useChart();
 
@@ -266,7 +269,7 @@ function ChartLegendContent({
     <div
       className={cn(
         "flex items-center justify-center gap-4",
-        verticalAlign === "top" ? "pb-3" : "pt-3",
+        position === "top" ? "pb-3" : "pt-3",
         className
       )}
     >
